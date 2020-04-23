@@ -13,12 +13,12 @@ import es.uma.informatica.sii.agendaee.entidades.Usuario;
  */
 @Local
 public interface Negocio {
-    public void registrarUsuario(Usuario u, UriBuilder uriBuilder);
-    public void validarCuenta(String cuenta, String validacion);
-    public void compruebaLogin(Usuario u);
-    public Usuario refrescarUsuario(Usuario u);
-    public void modificar(Contacto c);
-    public void insertar(Contacto c);
-    public void eliminarContacto(Contacto c);
+    public void registrarUsuario(Usuario u, UriBuilder uriBuilder) throws AgendaException;
+    public void validarCuenta(String cuenta, String validacion) throws AgendaException;
+    public void compruebaLogin(Usuario u) throws AgendaException;
+    public Usuario refrescarUsuario(Usuario u) throws AgendaException;
+    public void modificar(Contacto c) throws AgendaException;
+    public void insertar(Contacto c) throws AgendaException;
+    public void eliminarContacto(Contacto c) throws AgendaException;
 }
 

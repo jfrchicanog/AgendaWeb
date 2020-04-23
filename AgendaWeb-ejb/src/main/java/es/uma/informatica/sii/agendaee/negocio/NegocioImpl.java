@@ -31,7 +31,7 @@ public class NegocioImpl implements Negocio {
     private EntityManager em;
 
     @Override
-    public void registrarUsuario(Usuario u, UriBuilder uriBuilder) {
+    public void registrarUsuario(Usuario u, UriBuilder uriBuilder) throws AgendaException {
         Usuario user = em.find(Usuario.class, u.getCuenta());
         if (user != null) {
             // El usuario ya existe
@@ -66,7 +66,7 @@ public class NegocioImpl implements Negocio {
     }
 
     @Override
-    public void validarCuenta(String cuenta, String validacion) {
+    public void validarCuenta(String cuenta, String validacion) throws AgendaException {
         Usuario u = em.find(Usuario.class, cuenta);
         if (u == null) {
             throw new CuentaInexistenteException();
@@ -98,7 +98,7 @@ public class NegocioImpl implements Negocio {
      * @return
      */
     @Override
-    public void compruebaLogin(Usuario u) {
+    public void compruebaLogin(Usuario u)  throws AgendaException {
         // TODO
 
     }
@@ -115,7 +115,7 @@ public class NegocioImpl implements Negocio {
      * @return 
      */
     @Override
-    public Usuario refrescarUsuario(Usuario u) {
+    public Usuario refrescarUsuario(Usuario u)  throws AgendaException {
         // TODO
         return null;
 
@@ -131,7 +131,7 @@ public class NegocioImpl implements Negocio {
      * @return 
      */
     @Override
-    public void modificar(Contacto c) {
+    public void modificar(Contacto c)  throws AgendaException {
         // TODO
     }
 
@@ -143,7 +143,7 @@ public class NegocioImpl implements Negocio {
      */
     
     @Override
-    public void insertar(Contacto c) {
+    public void insertar(Contacto c)  throws AgendaException {
         // TODO
     }
 
@@ -156,7 +156,7 @@ public class NegocioImpl implements Negocio {
      * @return 
      */
     @Override
-    public void eliminarContacto(Contacto c) {
+    public void eliminarContacto(Contacto c)  throws AgendaException {
         // TODO
     }
 
