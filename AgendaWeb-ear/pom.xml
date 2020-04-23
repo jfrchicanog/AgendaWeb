@@ -36,6 +36,16 @@
 				<artifactId>maven-ear-plugin</artifactId>
 				<configuration>
 					<defaultLibBundleDir>lib</defaultLibBundleDir>
+					<modules>
+						<ejbModule>
+							<groupId>es.uma.informatica.sii</groupId>
+							<artifactId>AgendaWeb-ejb</artifactId>
+						</ejbModule>
+						<webModule>
+							<groupId>es.uma.informatica.sii</groupId>
+							<artifactId>AgendaWeb-war</artifactId>
+						</webModule>
+					</modules>
 				</configuration>
 			</plugin>
 		</plugins>
