@@ -99,7 +99,18 @@ public class NegocioImpl implements Negocio {
      */
     @Override
     public void compruebaLogin(Usuario u) {
-        // TODO
+    	Usuario user = em.find(Usuario.class, u.getCuenta());
+        if (user == null) {
+            throw new CuentaInexistenteException();
+        }
+
+        if (user.getCadenaValidacion() != null) {
+            throw new CuentaInactivaException();
+        }
+
+        if (!user.getContrasenia().equals(u.getContrasenia())) {
+            throw new ContraseniaInvalidaException();
+        }
 
     }
 
@@ -116,8 +127,10 @@ public class NegocioImpl implements Negocio {
      */
     @Override
     public Usuario refrescarUsuario(Usuario u) {
-        // TODO
-        return null;
+    	compruebaLogin(u);
+        Usuario user = em.find(Usuario.class, u.getCuenta());
+        em.refresh(user);
+        return user;
 
     }
 
@@ -132,7 +145,9 @@ public class NegocioImpl implements Negocio {
      */
     @Override
     public void modificar(Contacto c) {
-        // TODO
+    	Usuario u = c.getUsuario();
+        compruebaLogin(u);
+        em.merge(c);
     }
 
     /** Este método debe insertar un contacto en la BBDD. Antes debe comprobar que
@@ -144,7 +159,9 @@ public class NegocioImpl implements Negocio {
     
     @Override
     public void insertar(Contacto c) {
-        // TODO
+    	Usuario u = c.getUsuario();
+        compruebaLogin(u);
+        em.persist(c);
     }
 
     /**
@@ -157,7 +174,9 @@ public class NegocioImpl implements Negocio {
      */
     @Override
     public void eliminarContacto(Contacto c) {
-        // TODO
+    	Usuario u = c.getUsuario();
+        compruebaLogin(u);
+        em.remove(em.merge(c));
     }
 
 }

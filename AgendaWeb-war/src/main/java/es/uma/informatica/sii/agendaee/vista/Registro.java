@@ -10,6 +10,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.UriBuilder;
 
 import es.uma.informatica.sii.agendaee.entidades.Usuario;
@@ -90,8 +91,22 @@ public class Registro {
                 FacesContext.getCurrentInstance().addMessage("registro:repass", fm);
                 return null;
             }
-            String uri = FacesContext.getCurrentInstance().getExternalContext().encodeActionURL("validarCuenta.xhtml");
-            UriBuilder uriBuilder = UriBuilder.fromUri(uri)
+
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance()
+            		.getExternalContext()
+            		.getRequest();
+            
+            String thisUri = request.getRequestURL().toString();
+            
+            int ultimaBarra = thisUri.lastIndexOf('/');
+            if (ultimaBarra < 0) {
+            	FacesMessage fm = new FacesMessage("Error interno de URL");
+                FacesContext.getCurrentInstance().addMessage(null, fm);
+                return null;
+            }
+            
+            UriBuilder uriBuilder = UriBuilder.fromUri(thisUri.substring(0, ultimaBarra))
+            		.path("validarCuenta.xhtml")
             		.queryParam(PARAM_CUENTA, "{cuenta}")
             		.queryParam(PARAM_VALIDACION, "{validacion}");
             negocio.registrarUsuario(usuario, uriBuilder);
