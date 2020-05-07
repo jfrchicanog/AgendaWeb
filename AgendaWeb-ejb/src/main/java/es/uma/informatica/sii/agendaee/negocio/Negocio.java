@@ -20,5 +20,6 @@ public interface Negocio {
     public void modificar(Contacto c) throws AgendaException;
     public void insertar(Contacto c) throws AgendaException;
     public void eliminarContacto(Contacto c) throws AgendaException;
+    public Contacto obtenerContacto(Usuario usuario, Long id) throws AgendaException;
 }
 

@@ -178,5 +178,16 @@ public class NegocioImpl implements Negocio {
         compruebaLogin(u);
         em.remove(em.merge(c));
     }
+    
+    public Contacto obtenerContacto(Usuario usuario, Long id) throws AgendaException {
+    	compruebaLogin(usuario);
+    	Contacto contacto = em.find(Contacto.class, id);
+    	
+    	if (contacto != null && contacto.getUsuario().equals(usuario)) {
+    		return contacto;
+    	}
+    	
+    	throw new ContactoInexistenteException();
+    }
 
 }
