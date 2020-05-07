@@ -10,12 +10,16 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -23,6 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Usuario implements Serializable {
     private static final long serialVersionUID = 1L;
     private String nombre;
@@ -31,8 +36,11 @@ public class Usuario implements Serializable {
     
     @Id
     private String cuenta;
+    @XmlTransient
+    @JsonbTransient
     private String contrasenia;
-    
+    @XmlTransient
+    @JsonbTransient
     private String cadenaValidacion;
 
     @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
