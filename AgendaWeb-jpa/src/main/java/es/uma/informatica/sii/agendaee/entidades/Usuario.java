@@ -9,17 +9,20 @@ package es.uma.informatica.sii.agendaee.entidades;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author francis
  */
 @Entity
+@XmlRootElement
 public class Usuario implements Serializable {
     private static final long serialVersionUID = 1L;
     private String nombre;
@@ -32,6 +35,10 @@ public class Usuario implements Serializable {
     
     private String cadenaValidacion;
 
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
+    @OrderBy ("nombre ASC")
+    private List<Contacto> contactos;
+
     public String getCadenaValidacion() {
         return cadenaValidacion;
     }
@@ -40,10 +47,6 @@ public class Usuario implements Serializable {
         this.cadenaValidacion = cadenaValidacion;
     }
     
-    @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
-    @OrderBy ("nombre ASC")
-    private List<Contacto> contactos;
-
     public List<Contacto> getContactos() {
         return contactos;
     }

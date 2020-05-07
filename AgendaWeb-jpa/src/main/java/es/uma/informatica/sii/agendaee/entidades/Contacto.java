@@ -7,17 +7,22 @@
 package es.uma.informatica.sii.agendaee.entidades;
 
 import java.io.Serializable;
+
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author francis
  */
 @Entity
+@XmlRootElement
 public class Contacto implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -27,6 +32,8 @@ public class Contacto implements Serializable {
     private String email;
     private String telefono;
     @ManyToOne
+    @XmlTransient
+    @JsonbTransient
     private Usuario usuario;
 
     public Usuario getUsuario() {
