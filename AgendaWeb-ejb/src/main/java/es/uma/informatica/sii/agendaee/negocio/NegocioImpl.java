@@ -9,7 +9,13 @@ import java.net.URI;
 import java.util.Random;
 import java.util.logging.Logger;
 
+import javax.annotation.Resource;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
+import javax.jms.JMSContext;
+import javax.jms.JMSException;
+import javax.jms.MapMessage;
+import javax.jms.Queue;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.core.UriBuilder;
@@ -27,6 +33,12 @@ public class NegocioImpl implements Negocio {
     private static final int TAM_CADENA_VALIDACION = 20;
     private static final Logger LOGGER = Logger.getLogger(NegocioImpl.class.getCanonicalName());
 
+    @Inject
+    private JMSContext contextoJMS;
+    
+    @Resource(lookup = "java:/jms/queue/Registro")
+    private Queue colaRegistro;
+    
     @PersistenceContext(unitName = "AgendaEE-EntidadesPU")
     private EntityManager em;
 
@@ -83,7 +95,22 @@ public class NegocioImpl implements Negocio {
         // else
         // Eliminamos la cadena de validación, indicando que ya está activa la cuenta
         u.setCadenaValidacion(null);
+        mandarMensajeRegistro(u);
     }
+
+	private void mandarMensajeRegistro(Usuario u) {
+		try {
+			MapMessage datosUsuario = contextoJMS.createMapMessage();
+			datosUsuario.setString("nombre", u.getNombre());
+			datosUsuario.setString("apellidos", u.getApellidos());
+			datosUsuario.setString("cuenta", u.getCuenta());
+			datosUsuario.setString("email", u.getEmail());
+
+			contextoJMS.createProducer().send(colaRegistro, datosUsuario);
+		} catch (JMSException e) {
+			LOGGER.severe("Fallo al mandar el mensaje JMS");
+		}
+	}
 
     /**
      * Este método debe comprobar que el nombre de usuario y contraseña que
