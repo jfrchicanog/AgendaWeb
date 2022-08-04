@@ -41,7 +41,6 @@
     </plugins>
   </build>
   <properties>
-  <sonar.projectKey>jfrchicanog_AgendaWeb</sonar.projectKey>
   <sonar.organization>jfrchicanog</sonar.organization>
   <sonar.host.url>https://sonarcloud.io</sonar.host.url>
 </properties>
